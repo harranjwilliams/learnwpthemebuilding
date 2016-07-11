@@ -41,11 +41,10 @@ function popperscores_setup() {
 	 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
 	 */
 	add_theme_support( 'post-thumbnails' );
-	set_post_thumbnail_size( 828, 360, true );
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
-		'primary' => esc_html__( 'Primary Menu', 'popperscores' ),
+		'primary' => esc_html__( 'Primary', 'popperscores' ),
 	) );
 
 	/*
@@ -60,30 +59,13 @@ function popperscores_setup() {
 		'caption',
 	) );
 
-	/*
-	 * Enable support for Post Formats.
-	 * See https://developer.wordpress.org/themes/functionality/post-formats/
-	 */
-	add_theme_support( 'post-formats', array(
-		'aside',
-		'image',
-		'video',
-		'quote',
-		'link',
-	) );
-	
 	// Set up the WordPress core custom background feature.
 	add_theme_support( 'custom-background', apply_filters( 'popperscores_custom_background_args', array(
 		'default-color' => 'ffffff',
 		'default-image' => '',
 	) ) );
-	
-	/**
-	 * Add editor styles
-	 */
-	add_editor_style( array( 'inc/editor-style.css', 'fonts/custom-fonts.css', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' ) );
 }
-endif; // popperscores_setup
+endif;
 add_action( 'after_setup_theme', 'popperscores_setup' );
 
 /**
@@ -105,11 +87,11 @@ add_action( 'after_setup_theme', 'popperscores_content_width', 0 );
  */
 function popperscores_widgets_init() {
 	register_sidebar( array(
-		'name'          => esc_html__( 'Widget Area', 'popperscores' ),
+		'name'          => esc_html__( 'Sidebar', 'popperscores' ),
 		'id'            => 'sidebar-1',
-		'description'   => '',
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</aside>',
+		'description'   => esc_html__( 'Add widgets here.', 'popperscores' ),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
 		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
 	) );
@@ -121,20 +103,13 @@ add_action( 'widgets_init', 'popperscores_widgets_init' );
  */
 function popperscores_scripts() {
 	wp_enqueue_style( 'popperscores-style', get_stylesheet_uri() );
-	
-	// Add Google Fonts: Fira Sans and Merriweather
-	wp_enqueue_style( 'popperscores-local-fonts', get_template_directory_uri() . '/fonts/custom-fonts.css' );
-	
-	// Add Font Awesome icons (http://fontawesome.io) 
-	wp_enqueue_style( 'popperscores-fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' );
-	
-	wp_enqueue_script( 'popperscores-navigation', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20120206', true );
-	wp_localize_script( 'popperscores-navigation', 'screenReaderText', array(
-		'expand'   => '<span class="screen-reader-text">' . __( 'expand child menu', 'popperscores' ) . '</span>',
-		'collapse' => '<span class="screen-reader-text">' . __( 'collapse child menu', 'popperscores' ) . '</span>',
-	) );
-	
-	wp_enqueue_script( 'popperscores-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20130115', true );
+
+	// Add Google fonts Fire Sans and Merriweather
+	wp_enqueue_style( 'popperscores-google-fonts', 'https://fonts.googleapis.com/css?family=Fira+Sans:400,400i,700,700i|Merriweather:400,400i,700,700i' );
+
+	wp_enqueue_script( 'popperscores-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
+
+	wp_enqueue_script( 'popperscores-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
